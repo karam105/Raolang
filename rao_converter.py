@@ -29,7 +29,7 @@ running = True
 while running:
     user_input = input('Convert: ')
 
-    if user_input == 'rao:)':
+    if user_input == 'rao(:':
         running = False
         f.close()
         break
