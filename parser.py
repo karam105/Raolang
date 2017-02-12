@@ -1,6 +1,7 @@
 import dictionary as p
 code = ""
 tokens = []
+strList = []
 
 
 
@@ -15,9 +16,9 @@ def readProgramFile(filename):
 def tokenize(code):
     code = code.replace("rao","|rao")
     print("tokenized code...")
-    print(code)
+    #print(code)
     tokens = code.split("|")
-    print(tokens)
+    #print(tokens)
     return tokens
 
 # making it a habit that all checks are withing their separate functions
@@ -25,7 +26,7 @@ def tokenize(code):
 
 def checkHeader(tokens):
     if tokens[1][:5] != "rao:)":
-        print("Invalid code format")
+        print("Invalid code format, header not found")
         return False
     else:
         print("Header found")
@@ -34,7 +35,7 @@ def checkHeader(tokens):
 def checkFooter(tokens):
     a = len(tokens)
     if tokens[a-1][:5] != "rao:(":
-        print("Invalid code format")
+        print("Invalid code format, code has no end")
         return False
     else:
         print("Footer found")
@@ -42,25 +43,62 @@ def checkFooter(tokens):
 
 
 def syntaxChecker(tokens):
-    return 1
-    # this function needs to check all token signatures with pre existing
-    # ones to check if they are correct or not.
-
-    # for token in tokens:
-    #   if token[:5] != any existing signature from the list
-    #       raise flag, return false, and possibly print line no.
-    # return true if all correct
+    linenumber = 0
+    for token in tokens:
+        if '\n' in token:
+            linenumber+=1
+        if  token == '':
+            continue
+        if token[:4] not in p.checkList:
+            print("line:",linenumber," following command not found:",token)
+            break
+    print("Syntax seems okay...")
+    
+    # what's left:
+        # add more commands
+        # if space in code, that's an error. This is a space free environment
 
 def lexicalChecker(tokens):
     return 1
     # this can be built more
-    # not sure about usage at the moment 2/6
+    # still not sure about usage at the moment 2/11
 
 
+def parser(tokens):
+    print(tokens)
+    cpy = tokens # making copy for reasons unbestknown to us all
+    for token in cpy:
+        if token == 'rao:(' or token == 'rao:)':
+            token = ''
+        if p.parseDictionary.get(token[:4],'undefined') != 'undefined':
+            token = token.replace(token[:4],p.parseDictionary[token[:4]])
+            #token[:4] = p.parseDictionary[token[:4]]
+        #print(token)
+    # check for even length of strList
+    # otherwise there is syntax error (move to syntaxChecker)
+    while len(strList) != 0:
+        b = strList.pop()
+        a = strList.pop()
+        
+    print(tokens)
+
+def stringList(tokens):
+    for i in range(len(tokens)):
+        if 'rao"' in tokens[i]:
+            strList.append(i)
+
+a = 'rao='
+print(a[:4])
+b = p.parseDictionary.get("",'undefined')
+print(b)
 code = readProgramFile("helloworld.rao")
 tokens = tokenize(code)
 checkHeader(tokens)
 checkFooter(tokens)
+syntaxChecker(tokens)
+stringList(tokens)
+parser(tokens)
+
 #if checkHeader(tokens):
     #do other things
 
