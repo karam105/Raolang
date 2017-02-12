@@ -1,0 +1,3 @@
+
+parseDictionary = {'rao"':'"',
+                   'rao?':'#'}

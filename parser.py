@@ -1,11 +1,12 @@
-
-code = "a"
+import dictionary as p
+code = ""
 tokens = []
+
 
 
 def readProgramFile(filename):
     f = open(filename,'r')
-    print("here")
+    print("reading code file...")
     code = f.read()
     return code
 
@@ -13,8 +14,10 @@ def readProgramFile(filename):
 # them out easily in later functions
 def tokenize(code):
     code = code.replace("rao","|rao")
+    print("tokenized code...")
     print(code)
     tokens = code.split("|")
+    print(tokens)
     return tokens
 
 # making it a habit that all checks are withing their separate functions
@@ -23,11 +26,23 @@ def tokenize(code):
 def checkHeader(tokens):
     if tokens[1][:5] != "rao:)":
         print("Invalid code format")
-        return false
+        return False
     else:
-        return true
+        print("Header found")
+        return True
+
+def checkFooter(tokens):
+    a = len(tokens)
+    if tokens[a-1][:5] != "rao:(":
+        print("Invalid code format")
+        return False
+    else:
+        print("Footer found")
+        return True
+
 
 def syntaxChecker(tokens):
+    return 1
     # this function needs to check all token signatures with pre existing
     # ones to check if they are correct or not.
 
@@ -37,12 +52,15 @@ def syntaxChecker(tokens):
     # return true if all correct
 
 def lexicalChecker(tokens):
+    return 1
     # this can be built more
     # not sure about usage at the moment 2/6
 
 
 code = readProgramFile("helloworld.rao")
 tokens = tokenize(code)
-if checkHeader(tokens):
+checkHeader(tokens)
+checkFooter(tokens)
+#if checkHeader(tokens):
     #do other things
 
