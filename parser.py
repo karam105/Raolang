@@ -2,7 +2,7 @@ import dictionary as p
 code = ""
 tokens = []
 strList = []
-
+varList = []
 
 
 def readProgramFile(filename):
@@ -64,28 +64,61 @@ def lexicalChecker(tokens):
     # still not sure about usage at the moment 2/11
 
 
+def stringList(tokens):
+    for i in range(len(tokens)):
+        if 'rao"' in tokens[i]:
+            strList.append(i)
+
+
 def parser(tokens):
-    print(tokens)
+    parseDictionaryCommands(tokens)
+    parseStringLiterals(tokens)
+    parseVariables(tokens)
     cpy = tokens # making copy for reasons unbestknown to us all
-    for token in cpy:
-        if token == 'rao:(' or token == 'rao:)':
-            token = ''
-        if p.parseDictionary.get(token[:4],'undefined') != 'undefined':
-            token = token.replace(token[:4],p.parseDictionary[token[:4]])
-            #token[:4] = p.parseDictionary[token[:4]]
-        #print(token)
+    #print(tokens)
+
+def parseVariables(tokens):
+    for i in range(len(tokens)):
+        if tokens[i][:4] == 'rao$':
+            varList.append(i)
+    print(varList)
+
+def parseDictionaryCommands(tokens):
+    for t in range(len(tokens)):
+        if tokens[t][:5] == 'rao:(' or tokens[t][:5] == 'rao:)':
+            tokens[t] = '\n'
+        if p.parseDictionary.get(tokens[t][:4],'undefined') != 'undefined':
+            tokens[t] = tokens[t].replace(tokens[t][:4],p.parseDictionary[tokens[t][:4]])
+
+def parseStringLiterals(tokens):
     # check for even length of strList
     # otherwise there is syntax error (move to syntaxChecker)
     while len(strList) != 0:
         b = strList.pop()
         a = strList.pop()
-        
-    print(tokens)
+        stringList = tokens[a+1:b]
+        for i in range(len(stringList)):
+            stringList[i] = stringList[i].replace("rao@","")
+            stringList[i] = toString(stringList[i])
+        #print(stringList)
+        k = 0
+        for j in range(a+1,b):
+            tokens[j] = stringList[k]
+            k+=1
 
-def stringList(tokens):
-    for i in range(len(tokens)):
-        if 'rao"' in tokens[i]:
-            strList.append(i)
+def toString(value):
+    h = value.count('!')
+    t = value.count(',')
+    u = value.count('.')
+
+    dcml = h*100 + t*10 + u*1
+    return(chr(dcml))
+    
+def generateOutput(tokens):
+    f = open("output.py","w",newline="")
+    for token in tokens:
+        f.write(token)
+    f.close()
 
 a = 'rao='
 print(a[:4])
@@ -98,6 +131,7 @@ checkFooter(tokens)
 syntaxChecker(tokens)
 stringList(tokens)
 parser(tokens)
+generateOutput(tokens)
 
 #if checkHeader(tokens):
     #do other things
