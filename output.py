@@ -1,5 +1,8 @@
 
 #A Simple Hello World example
-rao$rao@!,........rao@,,,,,,,,,.......rao@!,....rao@,,,,.........="HelloWorld"
-rao#rao$rao@!,........rao@,,,,,,,,,.......rao@!,....rao@,,,,.........
+var1="HelloWorld"
+print(var1)
+print("HelloWorld")
+var2="milkshakes!"
+print(var2)
 
