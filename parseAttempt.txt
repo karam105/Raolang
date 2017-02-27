@@ -1,0 +1,44 @@
+   <variable>
+       | 
+       |  
+<string-literal>
+
+
+//Replacement Commands
+
+<expr> -> <word><id> | <word><id><parenthesis>
+<word> -> rao
+<id> -> " | # | = | ? | $ | : | @
+
+
+    <expr>
+      |
+      |
+  <word><id>
+  
+  
+           <word><id>
+               |
+               |
+            rao<id>
+        /  /  | |  \   \
+       /  /   | |   \   \ 
+      /  /    | |    \   \
+     /  /     | |     \   \ 
+    /  /      | |      \   \
+   /  ?       | |       \    $
+  #   |       | |        "   |
+  |   comment | |        |   var
+ print        = |        "
+              | |
+              = |
+                |
+                :
+                |
+          <parenthesis>
+             /    \
+            /      \
+           )        (
+           |        |
+         start      end
+         program    program
