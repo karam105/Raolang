@@ -82,6 +82,32 @@ def parser(tokens):
     parsePrint(tokens)
     cpy = tokens # making copy for reasons unbestknown to us all
     #print(tokens)
+    parseNumbers(tokens)
+
+def parseNumbers(tokens):
+    print("Replacing numbers...")
+    a,b = 0,0 # lower upper range values of inner list
+    # check all tokens, if any of them is a variable command
+    # initialize lower range, find all rao@s to go with the variable name
+    # and then initialize the upper range. Replace. Continue to find more.
+    for i in range(len(tokens)):
+        if tokens[i][:4] == 'rao~':
+            a = i+1
+            numberList = []
+            for j in range(a,len(tokens)):
+                if tokens[j][:4] == 'rao@':
+                    numberList.append(tokens[j])
+                else:
+                    b = j
+                    break
+            ind = 0
+            for k in range(a,b):
+                if '\n' in tokens[k]:
+                    tokens[k] = toString(numberList[ind].replace("rao@",""))+'\n'
+                else:
+                    tokens[k] = toString(numberList[ind].replace("rao@",""))
+                ind+=1
+            tokens[i] = ''
 
 # checks all variable commands (rao$) and replaces their
 # names with ascii char alternatives
