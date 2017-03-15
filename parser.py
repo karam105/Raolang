@@ -63,7 +63,6 @@ def syntaxChecker(tokens):
     
     # what's left:
         # add more commands
-        # if space in code, that's an error. This is a space free environment
         
 # no idea how this will work, generate dictionary of all variables maybe?
 def lexicalChecker(tokens):
