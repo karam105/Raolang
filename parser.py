@@ -15,22 +15,12 @@ def readProgramFile(filename):
     code = f.read()
     return code
 
-# check for and remove spaces
-# option 1 start
-def removeSpace(code):
-    print("Removing spaces...")
-    code = code.replace(" ","")
-    return code
-# option 1 end
-
 # checking for and removing spaces in file then
 # adding pipe sign between each rao term to separate
 # them out easily in later functions
 def tokenize(code):
-    # option 2 start
     print("Removing spaces...")
     code = code.replace(" ","")
-    # option 2 end
     print("Tokenizing code...")
     code = code.replace("rao","|rao")
     tokens = code.split("|")
