@@ -3,6 +3,7 @@
 
 import dictionary as p
 import runpy
+import time
 code = ""
 tokens = []
 strList = []
@@ -14,9 +15,22 @@ def readProgramFile(filename):
     code = f.read()
     return code
 
+# check for and remove spaces
+# option 1 start
+def removeSpace(code):
+    print("Removing spaces...")
+    code = code.replace(" ","")
+    return code
+# option 1 end
+
+# checking for and removing spaces in file then
 # adding pipe sign between each rao term to separate
 # them out easily in later functions
 def tokenize(code):
+    # option 2 start
+    print("Removing spaces...")
+    code = code.replace(" ","")
+    # option 2 end
     print("Tokenizing code...")
     code = code.replace("rao","|rao")
     tokens = code.split("|")
@@ -60,7 +74,7 @@ def syntaxChecker(tokens):
     # what's left:
         # add more commands
         # if space in code, that's an error. This is a space free environment
-
+        
 # no idea how this will work, generate dictionary of all variables maybe?
 def lexicalChecker(tokens):
     return 1
@@ -217,5 +231,6 @@ stringList(tokens)
 parser(tokens)
 generateOutput(tokens)
 print("Testing your patience...")
+time.sleep(5)
 print("Executing output.py...\n")
 runpy.run_path('output.py') # desperate times, desperate measures
