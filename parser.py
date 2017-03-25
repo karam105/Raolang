@@ -17,6 +17,9 @@ def readProgramFile(filename):
 # adding pipe sign between each rao term to separate
 # them out easily in later functions
 def tokenize(code):
+    print("Removing spaces...")
+    code = code.replace(" ","")
+    
     print("Tokenizing code...")
     code = code.replace("rao","|rao")
     tokens = code.split("|")
