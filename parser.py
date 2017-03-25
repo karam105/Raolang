@@ -3,7 +3,6 @@
 
 import dictionary as p
 import runpy
-import time
 code = ""
 tokens = []
 strList = []
@@ -15,12 +14,9 @@ def readProgramFile(filename):
     code = f.read()
     return code
 
-# checking for and removing spaces in file then
 # adding pipe sign between each rao term to separate
 # them out easily in later functions
 def tokenize(code):
-    print("Removing spaces...")
-    code = code.replace(" ","")
     print("Tokenizing code...")
     code = code.replace("rao","|rao")
     tokens = code.split("|")
@@ -60,10 +56,11 @@ def syntaxChecker(tokens):
             print("line:",linenumber," following command not found:",token)
             return
     print("Syntax seems okay...")
-    
+
     # what's left:
         # add more commands
-        
+        # if space in code, that's an error. This is a space free environment
+
 # no idea how this will work, generate dictionary of all variables maybe?
 def lexicalChecker(tokens):
     return 1
@@ -83,34 +80,9 @@ def parser(tokens):
     parseStringLiterals(tokens)
     parseVariables(tokens)
     parsePrint(tokens)
+    parseKeyboardIn(tokens)
     cpy = tokens # making copy for reasons unbestknown to us all
     #print(tokens)
-    parseNumbers(tokens)
-
-def parseNumbers(tokens):
-    print("Replacing numbers...")
-    a,b = 0,0 # lower upper range values of inner list
-    # check all tokens, if any of them is a variable command
-    # initialize lower range, find all rao@s to go with the variable name
-    # and then initialize the upper range. Replace. Continue to find more.
-    for i in range(len(tokens)):
-        if tokens[i][:4] == 'rao~':
-            a = i+1
-            numberList = []
-            for j in range(a,len(tokens)):
-                if tokens[j][:4] == 'rao@':
-                    numberList.append(tokens[j])
-                else:
-                    b = j
-                    break
-            ind = 0
-            for k in range(a,b):
-                if '\n' in tokens[k]:
-                    tokens[k] = toString(numberList[ind].replace("rao@",""))+'\n'
-                else:
-                    tokens[k] = toString(numberList[ind].replace("rao@",""))
-                ind+=1
-            tokens[i] = ''
 
 # checks all variable commands (rao$) and replaces their
 # names with ascii char alternatives
@@ -156,7 +128,23 @@ def parsePrint(tokens):
             tokens[i] = 'print'
             tokens[a] = '('+tokens[a]
             tokens[b] = tokens[b].replace('\n','')+')\n'
-            
+
+def parseKeyboardIn(tokens):
+    print("Adding keyboard input function...")
+    # check all tokens, initialize lower range
+    # look for a newline and stop there. Replace. Continue
+    for i in range(len(tokens)):
+        a,b = 0,0
+        if tokens[i][:4] == 'rao%':
+            a = i+1
+            for j in range(a,len(tokens)):
+                if '\n' in tokens[j]:
+                    b = j
+                    break
+            tokens[i] = 'input'
+            tokens[a] = '('+tokens[a]
+            tokens[b] = tokens[b].replace('\n','')+')\n'
+
 
 # this function does a direct replacement of one to one commands
 # rao" to ", rao= to = etc.
@@ -167,6 +155,7 @@ def parseDictionaryCommands(tokens):
             tokens[t] = '\n'
         if p.parseDictionary.get(tokens[t][:4],'undefined') != 'undefined':
             tokens[t] = tokens[t].replace(tokens[t][:4],p.parseDictionary[tokens[t][:4]])
+
 
 # parses literal string characters to their acsii alternates
 def parseStringLiterals(tokens):
@@ -187,7 +176,7 @@ def parseStringLiterals(tokens):
         #print(stringList)
         k = 0
         for j in range(a+1,b):
-            if '\n' in tokens[j]:   
+            if '\n' in tokens[j]:
                 tokens[j] = stringList[k]+'\n'
             else:
                 tokens[j] = stringList[k]
@@ -220,6 +209,5 @@ stringList(tokens)
 parser(tokens)
 generateOutput(tokens)
 print("Testing your patience...")
-time.sleep(5)
 print("Executing output.py...\n")
 runpy.run_path('output.py') # desperate times, desperate measures
