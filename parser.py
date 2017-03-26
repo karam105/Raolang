@@ -19,9 +19,10 @@ def readProgramFile(filename):
 def tokenize(code):
     print("Removing spaces...")
     code = code.replace(" ","")
-    
+
     print("Tokenizing code...")
     code = code.replace("rao","|rao")
+    code = code.replace("kevin","|kevin")
     tokens = code.split("|")
     return tokens
 
@@ -85,6 +86,8 @@ def parser(tokens):
     parsePrint(tokens)
     parseKeyboardIn(tokens)
     parseNumbers(tokens)
+    parseFileOpen(tokens)
+    parseFileClose(tokens)
     cpy = tokens # making copy for reasons unbestknown to us all
     #print(tokens)
 
@@ -174,6 +177,35 @@ def parseKeyboardIn(tokens):
             tokens[i] = 'input'
             tokens[a] = '('+tokens[a]
             tokens[b] = tokens[b].replace('\n','')+')\n'
+
+def parseFileOpen(tokens):
+    for i in range(len(tokens)):
+        a,b = 0,0
+        if tokens[i][:8] == 'kevin:^)':
+            a = i+1
+            for j in range(a,len(tokens)):
+                if '\n' in tokens[j]:
+                    b = j
+                    break
+            tokens[i] = 'open'
+            tokens[a] = '('+tokens[a]
+            tokens[b] = tokens[b].replace('\n','')+',\'r\')\n'
+
+
+def parseFileClose(tokens):
+    for i in range(len(tokens)):
+        a,b = 0,0
+        if tokens[i][:8] == 'kevin:^(':
+            a = i+1
+            for j in range(a,len(tokens)):
+                if '\n' in tokens[j]:
+                    b = j
+                    break
+            tokens[i] = ''
+            tokens[a] = tokens[a]
+            tokens[b] = tokens[b].replace('\n','')+'.close()\n'
+
+
 
 
 # this function does a direct replacement of one to one commands

@@ -20,7 +20,7 @@ def convert(string):
                     converted += '.'
             # advance to the next place
             place = place / 10
-            
+
     return converted
 
 f = open('rao_converted.txt', 'a')
@@ -33,6 +33,6 @@ while running:
         running = False
         f.close()
         break
-    
+
     print('Success!')
     f.write('{0} => {1}\n'.format(user_input, convert(user_input)))
