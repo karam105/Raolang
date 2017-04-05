@@ -56,9 +56,10 @@ def syntaxChecker(tokens):
             linenumber+=1
         if  token == '':
             continue
-        if token[:4] not in p.checkList:
-            print("line:",linenumber," following command not found:",token)
-            return
+        if token[:8] not in p.checkList:
+            if token[:4] not in p.checkList:
+                print("line:",linenumber," following command not found:",token)
+                return
     print("Syntax seems okay...")
 
     # what's left:
