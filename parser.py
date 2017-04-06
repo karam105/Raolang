@@ -1,4 +1,5 @@
 #Author: Rao Hamza Ali, who should be doing his Math homework right now.
+#Co-author: Kevin Lisbin
 #Version: 0.1
 
 import dictionary as p
@@ -7,6 +8,7 @@ code = ""
 tokens = []
 strList = []
 varList = []
+fileList = []
 
 def readProgramFile(filename):
     f = open(filename,'r')
@@ -193,6 +195,7 @@ def parseFileOpen(tokens):
             tokens[b] = tokens[b].replace('\n','')+',\'r\')\n'
 
 
+
 def parseFileClose(tokens):
     for i in range(len(tokens)):
         a,b = 0,0
@@ -204,7 +207,33 @@ def parseFileClose(tokens):
                     break
             tokens[i] = ''
             tokens[a] = tokens[a]
-            tokens[b] = tokens[b].replace('\n','')+'.close()\n'
+            tokens[b] = tokens[b].replace('\n','')
+            tokens.insert(b+1,'.close()')
+            tokens.insert(b+2, '\n')
+
+
+def fileCheck(tokens):
+    for i in range(len(tokens)):
+        if (tokens[i] == 'open') and (tokens[i-1] == '='):
+            x = i-2
+            tempList =[]
+            while(tokens[x] != ''):
+                tempList.append(tokens[x])
+                x = x-1
+            tempList.reverse()
+            fileList.append(''.join(tempList))
+        elif (tokens[i] == '.close()'):
+            x = i-1
+            tempList =[]
+            while(tokens[x] != ''):
+                tempList.append(tokens[x])
+                x = x-1
+            tempList.reverse()
+            fileList.remove(''.join(tempList))
+    if len(fileList) > 0:
+        print("{} file(s) opened that are never closed! Variable name for file is:".format(len(fileList)))
+        for file in fileList:
+            print(file)
 
 
 
@@ -270,6 +299,7 @@ checkFooter(tokens)
 syntaxChecker(tokens)
 stringList(tokens)
 parser(tokens)
+fileCheck(tokens)
 generateOutput(tokens)
 print("Testing your patience...")
 print("Executing output.py...\n")
