@@ -21,8 +21,8 @@ def readProgramFile(filename):
 def tokenize(code):
     print("Removing spaces...")
     code = code.replace(" ","")
-
     print("Tokenizing code...")
+    code = code.replace("roa","rao")    # small spell checker
     code = code.replace("rao","|rao")
     code = code.replace("kevin","|kevin")
     tokens = code.split("|")
