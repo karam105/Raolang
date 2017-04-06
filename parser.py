@@ -50,6 +50,14 @@ def checkFooter(tokens):
         print("Footer found")
         return True
 
+# check if user has asked for help; as in what commands are in the dictionary
+# probably not implemented correctly but the idea is there
+def checkHelp(tokens):
+    if tokens[2][:4] == "raoH":
+        for token in tokens:
+            print(p.parseDictionary)
+            return
+
 # checks each command in code file against commands from dictionary
 def syntaxChecker(tokens):
     linenumber = 0
@@ -74,14 +82,10 @@ def syntaxChecker(tokens):
                 print("line:",linenumber," following command not found:",token)
                 return
 
-
-
-
     print("Syntax seems okay...")
 
     # what's left:
         # add more commands
-        # if space in code, that's an error. This is a space free environment
 
 # no idea how this will work, generate dictionary of all variables maybe?
 def lexicalChecker(tokens):
