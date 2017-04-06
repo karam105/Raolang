@@ -3,12 +3,12 @@
 #Version: 0.1
 
 import dictionary as p
+import Kevin as kevin
 import runpy
 code = ""
 tokens = []
 strList = []
 varList = []
-fileList = []
 
 def readProgramFile(filename):
     f = open(filename,'r')
@@ -53,15 +53,30 @@ def checkFooter(tokens):
 # checks each command in code file against commands from dictionary
 def syntaxChecker(tokens):
     linenumber = 0
+    quote = 0
     for token in tokens:
+
+        if 'rao"' in token:
+            if quote == 0:
+                    quote = 1
+            else:
+                    quote = 0
+
         if '\n' in token:
             linenumber+=1
+            if quote == 1:
+                print("missing closing quotation mark at line {}".format(linenumber))
+                quit(0)
         if  token == '':
             continue
         if token[:8] not in p.checkList:
             if token[:4] not in p.checkList:
                 print("line:",linenumber," following command not found:",token)
                 return
+
+
+
+
     print("Syntax seems okay...")
 
     # what's left:
@@ -89,8 +104,8 @@ def parser(tokens):
     parsePrint(tokens)
     parseKeyboardIn(tokens)
     parseNumbers(tokens)
-    parseFileOpen(tokens)
-    parseFileClose(tokens)
+    kevin.parseFileOpen(tokens)
+    kevin.parseFileClose(tokens)
     cpy = tokens # making copy for reasons unbestknown to us all
     #print(tokens)
 
@@ -181,59 +196,6 @@ def parseKeyboardIn(tokens):
             tokens[a] = '('+tokens[a]
             tokens[b] = tokens[b].replace('\n','')+')\n'
 
-def parseFileOpen(tokens):
-    for i in range(len(tokens)):
-        a,b = 0,0
-        if tokens[i][:8] == 'kevin:^)':
-            a = i+1
-            for j in range(a,len(tokens)):
-                if '\n' in tokens[j]:
-                    b = j
-                    break
-            tokens[i] = 'open'
-            tokens[a] = '('+tokens[a]
-            tokens[b] = tokens[b].replace('\n','')+',\'r\')\n'
-
-
-
-def parseFileClose(tokens):
-    for i in range(len(tokens)):
-        a,b = 0,0
-        if tokens[i][:8] == 'kevin:^(':
-            a = i+1
-            for j in range(a,len(tokens)):
-                if '\n' in tokens[j]:
-                    b = j
-                    break
-            tokens[i] = ''
-            tokens[a] = tokens[a]
-            tokens[b] = tokens[b].replace('\n','')
-            tokens.insert(b+1,'.close()')
-            tokens.insert(b+2, '\n')
-
-
-def fileCheck(tokens):
-    for i in range(len(tokens)):
-        if (tokens[i] == 'open') and (tokens[i-1] == '='):
-            x = i-2
-            tempList =[]
-            while(tokens[x] != ''):
-                tempList.append(tokens[x])
-                x = x-1
-            tempList.reverse()
-            fileList.append(''.join(tempList))
-        elif (tokens[i] == '.close()'):
-            x = i-1
-            tempList =[]
-            while(tokens[x] != ''):
-                tempList.append(tokens[x])
-                x = x-1
-            tempList.reverse()
-            fileList.remove(''.join(tempList))
-    if len(fileList) > 0:
-        print("{} file(s) opened that are never closed! Variable name for file is:".format(len(fileList)))
-        for file in fileList:
-            print(file)
 
 
 
@@ -265,7 +227,7 @@ def parseStringLiterals(tokens):
         for i in range(len(stringList)):
             stringList[i] = stringList[i].replace("rao@","")
             stringList[i] = toString(stringList[i])
-        #print(stringList)
+        # print(stringList)
         k = 0
         for j in range(a+1,b):
             if '\n' in tokens[j]:
@@ -299,7 +261,7 @@ checkFooter(tokens)
 syntaxChecker(tokens)
 stringList(tokens)
 parser(tokens)
-fileCheck(tokens)
+kevin.fileCheck(tokens)
 generateOutput(tokens)
 print("Testing your patience...")
 print("Executing output.py...\n")
