@@ -186,7 +186,7 @@ def parseKeyboardIn(tokens):
     # look for a newline and stop there. Replace. Continue
     for i in range(len(tokens)):
         a,b = 0,0
-        if tokens[i][:4] == 'rao%':
+        if tokens[i][:4] == 'rao_':
             a = i+1
             for j in range(a,len(tokens)):
                 if '\n' in tokens[j]:
