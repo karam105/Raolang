@@ -20,8 +20,8 @@ def readProgramFile(filename):
 # adding pipe sign between each rao term to separate
 # them out easily in later functions
 def tokenize(code):
-    print("Removing spaces...")
-    code = code.replace(" ", "")
+    #print("Removing spaces...")
+    #code = code.replace(" ", "") # taking this out, doesn't work with comments. Needs fix or removal 4/8
     print("Tokenizing code...")
     code = code.replace("roa", "rao")  # small spell checker
     code = code.replace("rao", "|rao")
@@ -56,6 +56,7 @@ def checkFooter(tokens):
 
 # check if user has asked for help; as in what commands are in the dictionary
 # probably not implemented correctly but the idea is there
+# do not use invoke function, not working 4/8
 def checkHelp(tokens):
     if tokens[2][:4] == "raoH":
         for token in tokens:
@@ -114,12 +115,50 @@ def parser(tokens):
     parseStringLiterals(tokens)
     parseVariables(tokens)
     parsePrint(tokens)
+    parseLoop(tokens)
+    addIndentation(tokens)
     parseKeyboardIn(tokens)
     parseNumbers(tokens)
+
+
     Kevin.parseFileOpen(tokens)
     Kevin.parseFileClose(tokens)
     cpy = tokens  # making copy for reasons unbestknown to us all
     # print(tokens)
+
+
+def parseLoop(tokens):
+    print("Unlooping loops...")
+    for i in range(len(tokens)):
+        a, b = 0, 0
+        if tokens[i] == 'rao&':
+            print("Found a while loop")
+            a = i + 1
+            for j in range(a, len(tokens)):
+                if '\n' in tokens[j]:
+                    b = j
+                    break
+            tokens[i] = 'while'
+            tokens[a] = '(' + tokens[a]
+            tokens[b] = tokens[b].replace('\n', '') + '):\n'
+
+
+def addIndentation(tokens):
+    print("Tabbing the untabbed...")
+    for i in range(len(tokens)):
+        a,b = 0,0
+        if tokens[i] == 'raoo\n':
+            tokens[i+1] = '\t' + tokens[i+1]
+            tokens[i] = ''
+            a = i+1
+            for j in range(a,len(tokens)):
+                if 'raooo' in tokens[j]:
+                    b = j-1
+                    tokens[j] = ''
+                    break
+            for k in range(a,b):
+                if('\n' in tokens[k]):
+                    tokens[k+1] = '\t' + tokens[k+1]
 
 
 def parseNumbers(tokens):
