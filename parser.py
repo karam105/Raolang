@@ -119,10 +119,9 @@ def parser(tokens):
     addIndentation(tokens)
     parseKeyboardIn(tokens)
     parseNumbers(tokens)
-
-
     Kevin.parseFileOpen(tokens)
     Kevin.parseFileClose(tokens)
+    parseFunctions(tokens)
     cpy = tokens  # making copy for reasons unbestknown to us all
     # print(tokens)
 
@@ -142,6 +141,16 @@ def parseLoop(tokens):
             tokens[a] = '(' + tokens[a]
             tokens[b] = tokens[b].replace('\n', '') + '):\n'
 
+def parseFunctions(tokens):
+    print("Decompressing functions...")
+    for i in range(len(tokens)):
+        a,b =0,0
+        if tokens[i] == 'def ':
+            a = i+1
+            for j in range(a,len(tokens)):
+                if tokens[j] == ')\n':
+                    tokens[j] = '):\n'
+                    break
 
 def addIndentation(tokens):
     print("Tabbing the untabbed...")
@@ -304,6 +313,7 @@ def generateOutput(tokens):
     for token in tokens:
         f.write(token)
     f.close()
+
 
 
 # main execution of the parser

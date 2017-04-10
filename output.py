@@ -15,4 +15,9 @@ while(a!=b):
 	print(a)
 	print(a)
 print(a)
+def sum(a,b):
+	print(a+b)
+var1=8
+var2=2
+sum(var1,var2)
 
