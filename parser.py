@@ -87,7 +87,6 @@ def syntaxChecker(tokens):
             if token[:4] not in p.checkList:
                 print("line:", linenumber, " following command not found:", token)
                 return
-
     print("Syntax seems okay...")
 
     # what's left:
@@ -122,8 +121,30 @@ def parser(tokens):
     Kevin.parseFileOpen(tokens)
     Kevin.parseFileClose(tokens)
     parseFunctions(tokens)
+    parseIfs(tokens)
     cpy = tokens  # making copy for reasons unbestknown to us all
     # print(tokens)
+
+
+def parseIfs(tokens):
+    print("Converting ifs to buts...")
+    for i in range(len(tokens)):
+        a,b=0,0
+        if tokens[i] == 'rao:' or tokens[i] == 'rao:::':
+            #print("found an if/elif statement")
+            a = i+1
+            for j in range(a,len(tokens)):
+                if '\n' in tokens[j]:
+                    b = j
+                    break
+            tokens[i] = 'if' if tokens[i] == 'rao:' else 'elif'
+            tokens[a] = '(' + tokens[a]
+            tokens[b] = tokens[b].replace('\n','') + '):\n'
+    for i in range(len(tokens)):
+        a,b=0,0
+        if tokens[i] == 'rao::\n':
+            print("found an else statement")
+            tokens[i] = 'else:\n'
 
 
 def parseLoop(tokens):
@@ -131,7 +152,7 @@ def parseLoop(tokens):
     for i in range(len(tokens)):
         a, b = 0, 0
         if tokens[i] == 'rao&':
-            print("Found a while loop")
+            #print("Found a while loop")
             a = i + 1
             for j in range(a, len(tokens)):
                 if '\n' in tokens[j]:
@@ -140,6 +161,7 @@ def parseLoop(tokens):
             tokens[i] = 'while'
             tokens[a] = '(' + tokens[a]
             tokens[b] = tokens[b].replace('\n', '') + '):\n'
+
 
 def parseFunctions(tokens):
     print("Decompressing functions...")
@@ -151,6 +173,7 @@ def parseFunctions(tokens):
                 if tokens[j] == ')\n':
                     tokens[j] = '):\n'
                     break
+
 
 def addIndentation(tokens):
     print("Tabbing the untabbed...")

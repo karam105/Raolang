@@ -20,4 +20,12 @@ def sum(a,b):
 var1=8
 var2=2
 sum(var1,var2)
+var1=8
+var2=8
+if(var1==var2):
+	print(var1)
+elif(var1!=var2):
+	print(var2)
+else:
+	print("milkshakes!")
 
