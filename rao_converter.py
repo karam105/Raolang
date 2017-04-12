@@ -3,6 +3,10 @@ def convert(string):
     converted = ''
 
     for char in string:
+        if char == '"':
+            converted += 'rao"'
+            continue
+            
         converted += 'rao@'
         val = ord(char)
         valstr = str(val)
@@ -29,10 +33,12 @@ running = True
 while running:
     user_input = input('Convert: ')
 
-    if user_input == 'rao(:':
+    if user_input == 'rao(:' or user_input == 'quit':
         running = False
         f.close()
         break
 
-    print('Success!')
-    f.write('{0} => {1}\n'.format(user_input, convert(user_input)))
+    output = convert(user_input)
+    f.write('{0} => {1}\n'.format(user_input, output))
+
+    print(output + '\n')
