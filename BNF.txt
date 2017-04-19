@@ -1,3 +1,24 @@
-rao# ::= <variable>
-        |<string-literal>
-        
+program_start: ':)'
+program_end: ':('
+
+funcdef: 'rao\\'
+
+Aid: + | - | * | /  //Aid means arithmetic ID
+Cid: ?   //Cid means Comment ID
+id: " | = | ! | ( | ) | ,   //id is just general ID's
+Vid: $    //Vid means variable ID
+Pid: #    //Pid means print ID
+Kid: ^) | ^(    //Kid means kevin ID
+
+arithmetic: rao [Aid]
+comment: rao [Cid]
+
+direct_conversion: rao [id]
+
+var: rao [Vid]
+
+print: rao [Pid]
+
+file_I/O: kevin [Kid]
+
+while: raoo | raooo
