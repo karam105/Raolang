@@ -52,3 +52,19 @@ def fileCheck(tokens):
         print("{} file(s) opened that are never closed! Variable name for file is:".format(len(fileList)))
         for file in fileList:
             print(file)
+
+
+def readLine(tokens):
+    for i in range(len(tokens)):
+        a,b = 0,0
+        if tokens[i][:6] == 'kevin_':
+            a = i+1
+            for j in range(a, len(tokens)):
+                if '\n' in tokens[j]:
+                    b = j
+                    break
+            tokens[i] = ''
+            tokens[a] = tokens[a]
+            tokens[b] = tokens[b].replace('\n', '')
+            tokens.insert(b + 1, '.readline()')
+            tokens.insert(b + 2, '\n')

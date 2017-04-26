@@ -8,7 +8,7 @@ Cid: ?   //Cid means Comment ID
 id: " | = | ! | ( | ) | ,   //id is just general ID's
 Vid: $    //Vid means variable ID
 Pid: #    //Pid means print ID
-Kid: ^) | ^(    //Kid means kevin ID
+Kid: :^) | :^(    //Kid means kevin ID
 
 arithmetic: rao [Aid]
 comment: rao [Cid]

@@ -8,6 +8,7 @@ print(var2)
 var3=1**21
 print(var3)
 var4=open("helloworld.rao",'r')
+print(var4.readline())
 var4.close()
 a=1
 b=1
