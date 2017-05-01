@@ -3,7 +3,7 @@ def parseBessie(tokens):
     for i in range(len(tokens)):
         if tokens[i] == 'bessie\n':
             tokens[i] = 'bessie.moo()'
-        tokens[0] = tokens[0]+'import bessie\n'
+    tokens[0] = tokens[0]+'import bessie\n'
 def moo():
     a = '         (    )'
     b = '          (oo)'
