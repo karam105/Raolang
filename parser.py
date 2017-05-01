@@ -4,6 +4,7 @@
 
 import dictionary as p
 import Kevin
+import bessie
 import runpy
 
 strList = []
@@ -26,6 +27,7 @@ def tokenize(code):
     code = code.replace("roa", "rao")  # small spell checker
     code = code.replace("rao", "|rao")
     code = code.replace("kevin", "|kevin")
+    code = code.replace("bessie","|bessie")
     tokens = code.split("|")
     return tokens
 
@@ -116,6 +118,7 @@ def parser(tokens):
     Kevin.parseFileOpen(tokens)
     Kevin.parseFileClose(tokens)
     Kevin.readLine(tokens)
+    bessie.parseBessie(tokens)
     parsePrint(tokens)
     parseLoop(tokens)
     addIndentation(tokens)
@@ -144,7 +147,7 @@ def parseIfs(tokens):
     for i in range(len(tokens)):
         a,b=0,0
         if tokens[i] == 'rao::\n':
-            print("found an else statement")
+            #print("found an else statement")
             tokens[i] = 'else:\n'
 
 
