@@ -31,7 +31,6 @@ def tokenize(code):
     tokens = code.split("|")
     return tokens
 
-
 # making it a habit that all checks are withing their separate functions
 # so there is no need for additional changes to the main checker.
 
@@ -112,6 +111,7 @@ def stringList(tokens):
 
 # main parse method calling all other sub functions
 def parser(tokens):
+    parseNative(tokens)
     parseDictionaryCommands(tokens)
     parseStringLiterals(tokens)
     parseVariables(tokens)
@@ -128,6 +128,42 @@ def parser(tokens):
     parseIfs(tokens)
     cpy = tokens  # making copy for reasons unbestknown to us all
     # print(tokens)
+
+def parseNative(tokens):
+    for i in range(len(tokens)):    
+        a,b = 0,0
+        var = ""
+        if tokens[i] == 'rao>>\n':
+            a = i+1
+            tokens[i] = '\n'
+            print("found something")
+            for j in range(a,len(tokens)):
+                if tokens[j] == 'rao<<\n':
+                    b = j
+                    break
+            for k in range(a,b):
+                var += tokens[k]
+                tokens[k] = ''
+            tokens[b] = '\n'
+            #print(var)
+            b = var.split("rao@")
+            b = b[1:]
+            c = []
+            mystr= ''
+            for char in b:
+                hundreds = char.count('!')
+                tens = char.count(',')
+                units = char.count('.')
+
+                val = hundreds*100 + tens*10 + units
+                mystr+=chr(val)
+            temp = mystr.split('\n')
+            ind = a
+            for i in range(len(temp)):
+                tokens[ind] = temp[i]+'\n'
+                ind+=1
+
+
 
 
 def parseIfs(tokens):

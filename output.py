@@ -26,8 +26,19 @@ var1=8
 var2=8
 if(var1==var2):
 	print(var1)
+	
+	a=0
+	while(a<3):
+		print(a)
+		a+=1
+	
 elif(var1!=var2):
 	print(var2)
 else:
 	print("milkshakes!")
 bessie.moo()
+a=[]
+a.append(5)
+print(a)
+
+
