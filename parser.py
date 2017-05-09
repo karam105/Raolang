@@ -1,10 +1,11 @@
 # Author: Rao Hamza Ali, who should be doing his Math homework right now.
 # Co-author: Kevin Lisbin
-# Version: 0.1
+# Version: 0.3
 
 import dictionary as p
 import Kevin
 import bessie
+import david
 import runpy
 
 strList = []
@@ -28,6 +29,7 @@ def tokenize(code):
     code = code.replace("rao", "|rao")
     code = code.replace("kevin", "|kevin")
     code = code.replace("bessie","|bessie")
+    code = code.replace("david","|david")
     tokens = code.split("|")
     return tokens
 
@@ -115,10 +117,11 @@ def parser(tokens):
     parseDictionaryCommands(tokens)
     parseStringLiterals(tokens)
     parseVariables(tokens)
+    bessie.parseBessie(tokens)
+    david.parseDavid(tokens)
     Kevin.parseFileOpen(tokens)
     Kevin.parseFileClose(tokens)
     Kevin.readLine(tokens)
-    bessie.parseBessie(tokens)
     parsePrint(tokens)
     parseLoop(tokens)
     addIndentation(tokens)
@@ -162,9 +165,6 @@ def parseNative(tokens):
             for i in range(len(temp)):
                 tokens[ind] = temp[i]+'\n'
                 ind+=1
-
-
-
 
 def parseIfs(tokens):
     print("Converting ifs to buts...")
