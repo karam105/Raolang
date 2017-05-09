@@ -27,13 +27,13 @@ def convert(string):
 
     return converted
 
-f = open('rao_converted.txt', 'a')
+f = open('string2rao.txt', 'a')
 running = True
 
 while running:
     user_input = input('Convert: ')
 
-    if user_input == 'rao(:' or user_input == 'quit':
+    if user_input == 'quit':
         running = False
         f.close()
         break
