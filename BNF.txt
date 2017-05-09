@@ -1,24 +1,65 @@
-program_start: ':)'
-program_end: ':('
+program_start ::=
+          "rao:)"
+program_end ::=
+          "rao:("
 
-funcdef: 'rao\\'
+comment ::=
+          "rao?
 
-Aid: + | - | * | /  //Aid means arithmetic ID
-Cid: ?   //Cid means Comment ID
-id: " | = | ! | ( | ) | ,   //id is just general ID's
-Vid: $    //Vid means variable ID
-Pid: #    //Pid means print ID
-Kid: :^) | :^(    //Kid means kevin ID
+direct_conversion ::=
+            "rao""  | "rao="  | "rao!"
+          | "rao("  | "rao)"  | "rao,"
 
-arithmetic: rao [Aid]
-comment: rao [Cid]
+keyword ::=
+            "rao+"  | "rao-"  | "rao*"
+          | "rao/"  | "rao""  | "rao^"
+          | "rao="  | "rao!"  | "rao,"
+          | "rao."  | "rao("  | "rao)"
+          | "rao#"  | "rao:"  | "rao::"
+          | "rao:::"| "rao&"  | "rao?"
+          | "rao<<" | "rao>>" | "rao:)"
+          | "rao:(" | "raoo"  | "raooo"
 
-direct_conversion: rao [id]
+print_stmt ::=
+          "rao#"
 
-var: rao [Vid]
+if_stmt ::=
+          "rao:"
 
-print: rao [Pid]
+elif_stmt ::=
+          "rao::"
 
-file_I/O: kevin [Kid]
+else_stmt ::=
+          "rao:::"
 
-while: raoo | raooo
+while_stmt ::=
+          "rao&"
+
+funcdef ::=
+          "rao\" + funcname + "rao(" + parameters + "rao)"
+
+funcname ::=
+          "rao$"
+example -> s5 -> rao$rao@!,.....rao@,,,,,...
+
+file_input ::=
+          "kevin:^)"  | "kevin:^("
+
+digit ::=
+          "0" | "1" | ... | "9"
+example -> 234 -> rao~rao,,,,,@rao,,,,,.@rao@,,,,,..
+
+letter ::=
+          lowercase | uppercase
+
+lowercase ::=
+          "a" | "b" | ... | "z"
+
+uppercase ::=
+          "A" | "B" | ... | "Z"
+example -> s(115) -> rao@!,.....
+//the ascii number for the letter s is 115
+
+arithmetic ::=
+          "rao+"  | "rao-"  | "rao*"  | "rao/"
+example -> a+b -> rao$rao@,,,,,,,,,.......rao+rao$rao@,,,,,,,,,........
